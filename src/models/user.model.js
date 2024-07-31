@@ -17,7 +17,7 @@ const userSchema = new Schema(
             required: true,
             unique:true,
             lowercase: true,
-            trim:true,
+            trim:true
         },
         fullName:{
             type: String,
@@ -27,10 +27,10 @@ const userSchema = new Schema(
         },
         avatar:{
             type:String, //cloudinary url
-            required: true,
+            required: true
         },
         coverImage:{
-            type:String, //cloudinary url
+            type:String //cloudinary url
         },
         watchHistrory:[
             {
@@ -45,12 +45,12 @@ const userSchema = new Schema(
         refreshToken:{
             type:String
         }
-    },{timeseries:true}
+    },{timestamps:true}
 )
 
 userSchema.pre("save", async function(next){
     if(!this.isModified("password"))return next()
-    this.password=bcrypt.hash(this.password,10)
+    this.password= await bcrypt.hash(this.password,10)
     next()
 })
 userSchema.methods.isPasswordCorrect = async function(password){
